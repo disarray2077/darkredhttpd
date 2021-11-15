@@ -1,0 +1,12 @@
+FileVersion = 1
+Projects = {darkredhttpd = {Path = "."}}
+
+[Workspace]
+StartupProject = "darkredhttpd"
+
+[Configs.Debug.Win64]
+AllocStackTraceDepth = 15
+
+[Configs.Release.Win64]
+Toolset = "LLVM"
+LTOType = "Thin"

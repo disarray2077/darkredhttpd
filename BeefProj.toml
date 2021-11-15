@@ -1,0 +1,11 @@
+FileVersion = 1
+
+[Project]
+Name = "darkredhttpd"
+StartupObject = "darkredhttpd.Program"
+
+[Configs.Debug.Win64]
+DebugCommandArguments = "D:\\YouTube\\Fortissimo --timeout 0"
+
+[Configs.Release.Win64]
+DebugCommandArguments = "D:\\YouTube\\Fortissimo --timeout 0"
