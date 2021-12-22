@@ -459,8 +459,7 @@ namespace darkredhttpd
 
 		private mixin GetRFC1123Date()
 		{
-			// TODO: The commented out code crashes on linux, it needs to be fixed in corlib.
-			DateTime.Now./*ToUniversalTime().*/ToString(.. scope:mixin .(), "R")
+			DateTime.UtcNow.ToString(.. scope:mixin .(), "R")
 		}
 
 		// Process a GET/HEAD request.
