@@ -4,16 +4,6 @@ namespace System
 {
 	extension String
 	{
-		public void PadLeft(int totalWidth, char8 paddingChar)
-		{
-			Insert(0, paddingChar, totalWidth - Length);
-		}
-
-		public void PadRight(int totalWidth, char8 paddingChar)
-		{
-			Append(paddingChar, totalWidth - Length);
-		}
-
 		public mixin ToScopedNativeWCStr()
 		{
 			int encodedLen = UTF16.GetEncodedLen(this);
