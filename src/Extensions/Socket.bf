@@ -43,30 +43,6 @@ namespace System.Net
 			}
 		}
 
-		private int mReceiveBufferSize = 8192;
-		public int ReceiveBufferSize
-		{
-			get => mReceiveBufferSize;
-			set
-			{
-				mReceiveBufferSize = value;
-				if (mHandle != INVALID_SOCKET)
-					SetReceiveBufferSize(mReceiveBufferSize);
-			}
-		}
-
-		private int mSendBufferSize = 8192;
-		public int SendBufferSize
-		{
-			get => mSendBufferSize;
-			set
-			{
-				mSendBufferSize = value;
-				if (mHandle != INVALID_SOCKET)
-					SetSendBufferSize(mSendBufferSize);
-			}
-		}
-
 		[CLink, CallingConvention(.Stdcall)]
 		static extern int32 setsockopt(HSocket s, int32 level, int32 optionName, void* optionValue, uint32 optionLen);
 
@@ -74,25 +50,13 @@ namespace System.Net
 		static extern int32 getsockname(HSocket s, SockAddr* name, int32* nameLen);
 
 		[CLink, CallingConvention(.Stdcall)]
-		static extern char8* inet_ntoa(in_addr addr);
+		static extern char8* inet_ntoa(IPv4Address addr);
 
 		[CLink, CallingConvention(.Stdcall)]
 		static extern uint16 ntohs(uint16 netshort);
 
 		[CLink, CallingConvention(.Stdcall)]
 		static extern int32 shutdown(HSocket s, int32 how);
-
-#if BF_PLATFORM_WINDOWS
-		public const int SOL_SOCKET = 0xffff;            /* options for socket level */
-		public const int SO_REUSEADDR = 0x0004;          /* allow local address reuse */
-		public const int SO_SNDBUF = 0x1001;
-		public const int SO_RCVBUF = 0x1002;
-#else
-		public const int SOL_SOCKET = 1;            /* options for socket level */
-		public const int SO_REUSEADDR = 2;          /* allow local address reuse */
-		public const int SO_SNDBUF = 7;
-		public const int SO_RCVBUF = 8;
-#endif
 
 		public const int TCP_NODELAY = 1;
 
@@ -110,10 +74,6 @@ namespace System.Net
 			SetBlocking(mIsBlocking);
 			SetReuseAddr(mReuseAddr);
 			SetNoDelay(mNoDelay);
-			if (SendBufferSize != 8192)
-				SetSendBufferSize(SendBufferSize);
-			if (ReceiveBufferSize != 8192)
-				SetReceiveBufferSize(ReceiveBufferSize);
 		}
 
 		void SetReuseAddr(bool reuse)
@@ -126,18 +86,6 @@ namespace System.Net
 		{
 			int32 param = noDelay ? 1 : 0;
 			setsockopt(mHandle, IPPROTO_TCP, TCP_NODELAY, &param, sizeof(int32));
-		}
-
-		void SetReceiveBufferSize(int size)
-		{
-			var size;
-			setsockopt(mHandle, SOL_SOCKET, SO_RCVBUF, &size, sizeof(int));
-		}
-
-		void SetSendBufferSize(int size)
-		{
-			var size;
-			setsockopt(mHandle, SOL_SOCKET, SO_SNDBUF, &size, sizeof(int));
 		}
 
 		public Result<void, int32> Listen(int32 backlog = 5)
@@ -156,7 +104,7 @@ namespace System.Net
 
 			SockAddr_in service = ?;
 			service.sin_family = AF_INET;
-			service.sin_addr = in_addr(0, 0, 0, 0);//in_addr(127, 0, 0, 1);
+			service.sin_addr = IPv4Address(0, 0, 0, 0);//in_addr(127, 0, 0, 1);
 			service.sin_port = (uint16)htons((int16)mPort);
 
 			if (bind(mHandle, &service, sizeof(SockAddr_in)) == SOCKET_ERROR)
