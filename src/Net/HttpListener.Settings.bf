@@ -11,11 +11,11 @@ namespace darkredhttpd
 			public static String BindAddr;
 #if BF_PLATFORM_WINDOWS
 			public static int32 BindPort = 80;
-#elif BF_PLATFORM_LINUX
+#else
 			public static int32 BindPort = 8080;
 #endif
 			public static int32 MaxConnections = -1;
-			public static int32 TimeoutSecs = 30;
+			public static int32 TimeoutSecs = 0;
 
 			public static bool WantKeepAlive = true;
 			public static bool WantServerID = true;
@@ -40,7 +40,7 @@ namespace darkredhttpd
 
 			public static void ParseCommandLine(Span<String> args)
 			{
-#if BF_PLATFORM_LINUX
+#if !BF_PLATFORM_WINDOWS
 				if (CurrentPlatform.IsRoot())
 					HttpListener.Settings.BindPort = 80;
 #endif

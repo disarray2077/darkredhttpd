@@ -181,8 +181,7 @@ namespace darkredhttpd
 				"""
 				\t--throttle BytesPerSec (default: don't throttle)
 				\t\tSets a limit on how many bytes can be sent per second.\n
-				""",
-				HttpListener.Settings.TimeoutSecs);
+				""");
 			Console.WriteLine(
 				"""
 				\t--auth username:password

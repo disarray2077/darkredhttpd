@@ -202,13 +202,13 @@ namespace darkredhttpd
 			}
 			else if (ret == -1)
 			{
-#if BF_PLATFORM_LINUX
+#if BF_PLATFORM_WINDOWS
+				int32 err = Windows.GetLastError();
+#else
 				int32 err = errno();
 				if (err == EINTR)
 					return;
 				else
-#elif BF_PLATFORM_WINDOWS
-				int32 err = Windows.GetLastError();
 #endif
 				{
 					Program.ExitWithOSError(1, err, "select() failed.");

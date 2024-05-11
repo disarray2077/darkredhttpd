@@ -1,6 +1,6 @@
 using System;
 
-#if BF_PLATFORM_LINUX
+#if !BF_PLATFORM_WINDOWS
 namespace darkredhttpd
 {
 	class CurrentPlatform

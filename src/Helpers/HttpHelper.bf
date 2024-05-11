@@ -88,7 +88,7 @@ namespace darkredhttpd.Helpers
 					urlStr[i+1].IsXDigit && urlStr[i+2].IsXDigit)
 				{
 					// decode %XX
-					outString.Append((char8)int32.Parse(urlStr.Substring(i+1, 2), .AllowHexSpecifier));
+					outString.Append((char8)int32.Parse(urlStr.Substring(i+1, 2), .Hex));
 					i += 2;
 				}
 				else if (urlStr[i] == '+')

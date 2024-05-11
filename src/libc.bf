@@ -6,10 +6,10 @@ namespace darkredhttpd
 	{
 #if BF_PLATFORM_WINDOWS
 		[CLink]
-#elif BF_PLATFORM_LINUX
-		[LinkName("__errno_location")]
 #elif BF_PLATFORM_MACOS
 		[LinkName("__error")]
+#else
+		[LinkName("__errno_location")]
 #endif
 		static extern int32* _errno();
 		public static ref int32 errno() => ref *_errno();

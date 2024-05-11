@@ -25,8 +25,8 @@ namespace darkredhttpd
 		public Response Response;
 		
 		public bool HeaderOnly;
-		public int64 HeaderSent;
-		public int64 ResponseSent;
+		public int HeaderSent;
+		public int ResponseSent;
 
 		public DateTime LastBurst;
 		public int32 BurstSize;
@@ -218,6 +218,8 @@ namespace darkredhttpd
 				Response.Headers.Ptr + HeaderSent,
 				Response.Headers.Length - HeaderSent);
 
+			LastActive = DateTime.Now;
+
 			if (sent < 1)
 			{
 				if (sent == -1)
@@ -243,8 +245,6 @@ namespace darkredhttpd
 
 			if (Constants.DEBUG)
 				Console.WriteLine("poll_send_header({0}) sent {1} bytes", (int32)Socket.NativeSocket, sent);
-
-			LastActive = DateTime.Now;
 
 			Debug.Assert(sent > 0);
 

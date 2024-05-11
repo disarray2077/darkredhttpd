@@ -61,7 +61,7 @@ namespace darkredhttpd
 		{
 			__WSAFDIsSet(fd, set) == 1
 		}
-#elif BF_PLATFORM_LINUX
+#else
 		/*
 		* Select uses bit masks of file descriptors in longs.  These macros
 		* manipulate such bit fields (the filesystem macros use chars).
